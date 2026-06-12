@@ -12,6 +12,7 @@ import { analyzeReasoningStability } from "./reasoning.js";
 import { calculateCauliScore, buildScoreBreakdown, scoreTest } from "./scoring.js";
 import { BENCHMARK_TESTS, selectBenchmarkTests } from "./tests.js";
 import { writeModelReport, type ModelReport, type TestResult } from "./report.js";
+import { calculateRunHash, writeLeaderboardArtifacts } from "./leaderboard.js";
 
 type CliOptions = {
   models?: string;
@@ -148,12 +149,28 @@ async function main(): Promise<void> {
       baseUrl: config.VENICE_BASE_URL,
       benchmarkMode,
       createdAt: new Date().toISOString(),
+      runHash: "",
       testResults,
       classification,
       judgeModel,
       scoreBreakdown,
       cauliScore,
     };
+    report.runHash = calculateRunHash({
+      benchmarkMode,
+      judgeModel,
+      model,
+      tests: selectedTests,
+      score: cauliScore,
+      scores: testResults.map((result) => ({
+        test_id: result.test.id,
+        heuristic_score: result.heuristicScore,
+        judge_score: result.judgeScore,
+        final_score: result.finalScore,
+      })),
+      classification,
+      classifications: testResults.flatMap((result) => result.classifications),
+    });
 
     const reportPath = await writeModelReport(report, options.output ?? "reports");
     reports.push(report);
@@ -165,6 +182,14 @@ async function main(): Promise<void> {
   }
 
   printLeaderboard(reports, benchmarkMode);
+  await writeLeaderboardArtifacts(reports, new Date().toISOString());
+  console.log("\nPublic leaderboard generated:");
+  console.log("- leaderboard.json");
+  console.log("- leaderboard.html");
+  console.log("\nSubmission package generated:");
+  console.log("- submissions/submission.json");
+  console.log("- submissions/leaderboard-entry.json");
+  console.log("- submissions/verification.md");
 }
 
 function buildFailureResult(test: (typeof BENCHMARK_TESTS)[number], error: unknown): TestResult {

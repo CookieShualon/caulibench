@@ -27,6 +27,7 @@ export type ModelReport = {
   baseUrl: string;
   benchmarkMode: "quick" | "full";
   createdAt: string;
+  runHash: string;
   testResults: TestResult[];
   classification: Classification;
   judgeModel: string;
@@ -52,6 +53,7 @@ function renderReport(report: ModelReport): string {
     `- Benchmark Mode: \`${capitalize(report.benchmarkMode)}\``,
     `- Judge: \`${report.judgeModel}\``,
     `- Created: \`${report.createdAt}\``,
+    `- Run Hash: \`${report.runHash}\``,
     `- Classification: \`${report.classification}\``,
     `- Final CauliScore: **${report.cauliScore}/100**`,
     `- Final Score Formula: \`80% Judge + 20% Heuristics\``,

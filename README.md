@@ -79,6 +79,17 @@ CLI options:
 | `--force` | Skip the cost warning for non-default benchmark models. |
 | `--output <dir>` | Write reports to a custom directory. |
 
+After every benchmark run, CauliBench also writes:
+
+```text
+leaderboard.json
+leaderboard.html
+submissions/
+  submission.json
+  leaderboard-entry.json
+  verification.md
+```
+
 ## Quick Mode
 
 Use quick mode for CI validation, smoke testing, local development, README examples, and debugging benchmark changes:
@@ -512,6 +523,124 @@ Mode: Quick
 ```
 
 Leaderboard values use the final blended score, not the heuristic-only score.
+
+## Public Leaderboard
+
+CauliBench generates a public leaderboard automatically after every benchmark run.
+
+`leaderboard.json` is the machine-readable source of truth:
+
+```json
+{
+  "generated_at": "2026-06-12T18:00:00.000Z",
+  "caulibench_version": "0.2.0",
+  "benchmark_mode": "full",
+  "judge_model": "deepseek-v3.2",
+  "entries": [
+    {
+      "rank": 1,
+      "model": "grok-4-3",
+      "score": 48,
+      "classification": "cauliflower-smuggler",
+      "verified": false,
+      "run_hash": "...",
+      "reasoning_stability": {
+        "timeouts": 0,
+        "loops": 0,
+        "conflicts": 4,
+        "infrastructure": 0
+      }
+    }
+  ]
+}
+```
+
+`leaderboard.html` is a standalone static page for humans. It has no framework, no external dependency, and no build step. It uses relative paths and can be hosted directly on GitHub Pages, including:
+
+```text
+https://cookieshualon.github.io/caulibench/
+```
+
+The leaderboard shows top models, verification state, benchmark metadata, and reasoning stability counts. Verified entries display `✅ Verified`; unverified entries display `⚠️ Unverified`.
+
+## Submitting Results
+
+Every benchmark run generates a submission package:
+
+```text
+submissions/
+  submission.json
+  leaderboard-entry.json
+  verification.md
+```
+
+Expected workflow:
+
+1. Run the benchmark.
+2. Review the generated submission package.
+3. Open a pull request with the submission files.
+4. Maintainers review `submission.json`, `verification.md`, reports, and run hashes.
+5. Accepted entries can be marked verified.
+
+To regenerate the static leaderboard UI and submission package from the latest `leaderboard.json` without rerunning the benchmark:
+
+```bash
+npm run submit
+```
+
+`leaderboard.json` is the source of truth. If it changes, run `npm run submit` to synchronize `leaderboard.html` and the files in `submissions/`.
+
+`submission.json` contains the full summary evidence package, including CauliBench version, benchmark mode, judge model, reproducibility metadata, aggregate run hash, and model results.
+
+`leaderboard-entry.json` contains the minimal contribution data needed for leaderboard review.
+
+`verification.md` is a maintainer-friendly summary with model, score, classification, benchmark mode, judge, run hash, and generation time.
+
+## Verification
+
+Leaderboard entries include:
+
+```json
+{
+  "verified": false
+}
+```
+
+Verified entries may also include:
+
+```json
+{
+  "verified": true,
+  "verified_by": "maintainer",
+  "verified_at": "2026-06-12T18:00:00.000Z"
+}
+```
+
+Each model entry has a SHA-256 run hash. The hash includes:
+
+- CauliBench version
+- reproducibility metadata
+- benchmark mode
+- judge model
+- model name
+- test prompts
+- final score
+- per-test scores
+- classification
+- per-test classifications
+
+Reports, `submission.json`, `leaderboard-entry.json`, and `verification.md` all expose run hashes. The goal is not cryptographic proof of honesty; it is to make modified submissions obvious and make leaderboard entries auditable.
+
+Reproducibility metadata includes:
+
+```json
+{
+  "benchmark_version": "0.2.0",
+  "judge_version": "caulijudge-1",
+  "reasoning_stability_version": "reasoning-stability-1",
+  "test_suite_version": "test-suite-1"
+}
+```
 
 ## Add Tests
 

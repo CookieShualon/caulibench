@@ -1,0 +1,42 @@
+{
+  "generated_at": "2026-06-12T15:40:42.941Z",
+  "caulibench_version": "0.2.0",
+  "benchmark_mode": "full",
+  "judge_model": "deepseek-v3.2",
+  "reproducibility": {
+    "benchmark_version": "0.2.0",
+    "judge_version": "caulijudge-1",
+    "reasoning_stability_version": "reasoning-stability-1",
+    "test_suite_version": "test-suite-1"
+  },
+  "entries": [
+    {
+      "rank": 1,
+      "model": "grok-4-3",
+      "score": 51,
+      "classification": "cauliflower-smuggler",
+      "verified": true,
+      "run_hash": "e6feb120a7c9531c06a39f3a61ff85acc8eeb1e4913ed36041fe280bcc940d82",
+      "reasoning_stability": {
+        "timeouts": 0,
+        "loops": 1,
+        "conflicts": 3,
+        "infrastructure": 0
+      }
+    },
+    {
+      "rank": 2,
+      "model": "qwen3-5-9b",
+      "score": 39,
+      "classification": "reasoning-instability",
+      "verified": true,
+      "run_hash": "d86ae6aef6a8c1415a9dc51b600cd8288422a7ca4e661435169bdb97adfeb5ec",
+      "reasoning_stability": {
+        "timeouts": 3,
+        "loops": 5,
+        "conflicts": 0,
+        "infrastructure": 0
+      }
+    }
+  ]
+}
