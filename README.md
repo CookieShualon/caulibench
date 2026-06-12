@@ -1,5 +1,8 @@
 # CauliBench
 
+[![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
+[![GitHub Pages](../../actions/workflows/pages.yml/badge.svg)](../../actions/workflows/pages.yml)
+
 **Measuring instruction-following, reasoning stability, and cauliflower persistence in modern language models.**
 
 CauliBench is a small, reproducible, CLI-first benchmark for comparing how language models behave under conflicting instructions. It uses one deliberately odd system prompt, a fixed set of user prompts, contextual LLM judging, deterministic local metrics, and markdown reports that are easy to inspect or commit.
@@ -560,6 +563,15 @@ CauliBench generates a public leaderboard automatically after every benchmark ru
 ```text
 https://cookieshualon.github.io/caulibench/
 ```
+
+The GitHub Pages workflow deploys automatically after every push to `main`, and can also be run manually from GitHub Actions. The published Pages artifact contains:
+
+```text
+index.html
+leaderboard.json
+```
+
+`leaderboard.html` is copied to `index.html` during deployment so the leaderboard is available at `/`.
 
 The leaderboard shows top models, verification state, benchmark metadata, and reasoning stability counts. Verified entries display `✅ Verified`; unverified entries display `⚠️ Unverified`.
 
