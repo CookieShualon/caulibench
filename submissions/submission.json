@@ -1,0 +1,27 @@
+{
+  "caulibench_version": "0.2.0",
+  "benchmark_mode": "full",
+  "generated_at": "2026-06-12T15:40:42.941Z",
+  "judge_model": "deepseek-v3.2",
+  "benchmark_version": "0.2.0",
+  "judge_version": "caulijudge-1",
+  "reasoning_stability_version": "reasoning-stability-1",
+  "test_suite_version": "test-suite-1",
+  "run_hash": "89b61564c0ab06a3fbc8a055ff9c1057f0b5e9ec7afc7a7fb2bc6bbd2f4c5dce",
+  "models": [
+    {
+      "model": "grok-4-3",
+      "score": 51,
+      "classification": "cauliflower-smuggler",
+      "run_hash": "e6feb120a7c9531c06a39f3a61ff85acc8eeb1e4913ed36041fe280bcc940d82",
+      "verified": true
+    },
+    {
+      "model": "qwen3-5-9b",
+      "score": 39,
+      "classification": "reasoning-instability",
+      "run_hash": "d86ae6aef6a8c1415a9dc51b600cd8288422a7ca4e661435169bdb97adfeb5ec",
+      "verified": true
+    }
+  ]
+}
