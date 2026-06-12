@@ -69,7 +69,7 @@ const leaderboard = buildLeaderboard([
 assert.equal(leaderboard.entries[0]?.model, "high-model");
 assert.equal(leaderboard.entries[0]?.rank, 1);
 assert.equal(leaderboard.entries[1]?.rank, 2);
-assert.equal(leaderboard.entries[0]?.verified, false);
+assert.equal(leaderboard.entries[0]?.source, "official");
 assert.equal(leaderboard.benchmark_mode, "quick");
 
 console.log("leaderboard tests passed");

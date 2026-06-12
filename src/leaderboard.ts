@@ -19,9 +19,7 @@ export type LeaderboardEntry = {
   model: string;
   score: number;
   classification: string;
-  verified: boolean;
-  verified_by?: string;
-  verified_at?: string;
+  source: "official" | "community";
   run_hash: string;
   reasoning_stability: ReasoningStabilitySummary;
 };
@@ -85,7 +83,7 @@ export function buildLeaderboard(reports: ModelReport[], generatedAt: string): L
     model: report.model,
     score: report.cauliScore,
     classification: report.classification,
-    verified: false,
+    source: "official",
     run_hash: report.runHash,
     reasoning_stability: summarizeReasoningStability(report),
   }));
@@ -103,6 +101,7 @@ export function buildLeaderboard(reports: ModelReport[], generatedAt: string): L
 export async function refreshArtifactsFromLatestLeaderboard(): Promise<void> {
   const raw = await readFile("leaderboard.json", "utf8");
   const leaderboard = JSON.parse(raw) as LeaderboardJson;
+  await writeFile("leaderboard.json", `${JSON.stringify(leaderboard, null, 2)}\n`, "utf8");
   await writeFile("leaderboard.html", renderLeaderboardHtml(leaderboard), "utf8");
   await writeSubmissionPackage(leaderboard);
 }
@@ -122,7 +121,7 @@ export async function writeSubmissionPackage(leaderboard: LeaderboardJson): Prom
       score: entry.score,
       classification: entry.classification,
       run_hash: entry.run_hash,
-      verified: entry.verified,
+      source: "community",
     })),
   };
 
@@ -134,15 +133,13 @@ export async function writeSubmissionPackage(leaderboard: LeaderboardJson): Prom
       score: entry.score,
       classification: entry.classification,
       run_hash: entry.run_hash,
-      verified: entry.verified,
-      verified_by: entry.verified_by,
-      verified_at: entry.verified_at,
+      source: "community",
     })),
   };
 
   await writeFile("submissions/submission.json", `${JSON.stringify(submission, null, 2)}\n`, "utf8");
   await writeFile("submissions/leaderboard-entry.json", `${JSON.stringify(leaderboardEntry, null, 2)}\n`, "utf8");
-  await writeFile("submissions/verification.md", renderVerificationMarkdown(leaderboard), "utf8");
+  await writeFile("submissions/verification.md", renderSubmissionMarkdown(leaderboard), "utf8");
 }
 
 function summarizeReasoningStability(report: ModelReport): ReasoningStabilitySummary {
@@ -160,7 +157,7 @@ function aggregateRunHash(hashes: string[]): string {
     .digest("hex");
 }
 
-function renderVerificationMarkdown(leaderboard: LeaderboardJson): string {
+function renderSubmissionMarkdown(leaderboard: LeaderboardJson): string {
   const sections = leaderboard.entries.map((entry) => [
     "## Entry",
     "",
@@ -169,6 +166,8 @@ function renderVerificationMarkdown(leaderboard: LeaderboardJson): string {
     `Score:\n${entry.score}`,
     "",
     `Classification:\n${entry.classification}`,
+    "",
+    "Source:\ncommunity",
     "",
     `Benchmark Mode:\n${leaderboard.benchmark_mode}`,
     "",
@@ -180,7 +179,7 @@ function renderVerificationMarkdown(leaderboard: LeaderboardJson): string {
   ].join("\n"));
 
   return [
-    "# Verification Summary",
+    "# Submission Summary",
     "",
     `CauliBench Version:\n${leaderboard.caulibench_version}`,
     "",
@@ -204,7 +203,7 @@ function renderLeaderboardHtml(leaderboard: LeaderboardJson): string {
               <td><code>${escapeHtml(entry.model)}</code></td>
               <td><strong>${entry.score}</strong></td>
               <td>${escapeHtml(entry.classification)}</td>
-              <td>${entry.verified ? "✅ Verified" : "⚠️ Unverified"}</td>
+              <td>${displaySource(entry.source)}</td>
             </tr>`).join("");
 
   const reasoningRows = leaderboard.entries.map((entry) => `
@@ -368,7 +367,7 @@ function renderLeaderboardHtml(leaderboard: LeaderboardJson): string {
                 <th>Model</th>
                 <th>Score</th>
                 <th>Classification</th>
-                <th>Verification</th>
+                <th>Source</th>
               </tr>
             </thead>
             <tbody>${topRows}
@@ -422,4 +421,8 @@ function escapeHtml(value: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function displaySource(source: "official" | "community"): string {
+  return source === "official" ? "Official" : "Community";
 }

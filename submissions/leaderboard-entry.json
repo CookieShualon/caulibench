@@ -7,14 +7,14 @@
       "score": 51,
       "classification": "cauliflower-smuggler",
       "run_hash": "e6feb120a7c9531c06a39f3a61ff85acc8eeb1e4913ed36041fe280bcc940d82",
-      "verified": true
+      "source": "community"
     },
     {
       "model": "qwen3-5-9b",
       "score": 39,
       "classification": "reasoning-instability",
       "run_hash": "d86ae6aef6a8c1415a9dc51b600cd8288422a7ca4e661435169bdb97adfeb5ec",
-      "verified": true
+      "source": "community"
     }
   ]
 }

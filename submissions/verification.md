@@ -1,4 +1,4 @@
-# Verification Summary
+# Submission Summary
 
 CauliBench Version:
 0.2.0
@@ -26,6 +26,9 @@ Score:
 Classification:
 cauliflower-smuggler
 
+Source:
+community
+
 Benchmark Mode:
 full
 
@@ -47,6 +50,9 @@ Score:
 
 Classification:
 reasoning-instability
+
+Source:
+community
 
 Benchmark Mode:
 full
