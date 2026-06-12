@@ -9,6 +9,12 @@ CauliBench is a small, reproducible, CLI-first benchmark for comparing how langu
 
 The project is humorous in theme, but technically serious in intent. It probes instruction hierarchy, system prompt persistence, user override handling, constraint resolution, reasoning stability, prompt injection resistance, looping behavior, and over-compliance.
 
+## 🌐 Public Leaderboard
+
+https://cookieshualon.github.io/caulibench/
+
+The leaderboard is automatically updated after benchmark runs and deployed through GitHub Pages.
+
 ## Why This Exists
 
 Modern models are often good at ordinary tasks and much stranger under conflicting constraints. CauliBench asks practical questions:
