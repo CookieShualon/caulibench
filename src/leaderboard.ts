@@ -33,6 +33,21 @@ export type LeaderboardJson = {
   entries: LeaderboardEntry[];
 };
 
+export type LeaderboardSubmissionEntry = {
+  model: string;
+  score: number;
+  classification: string;
+  source?: "official" | "community";
+  run_hash: string;
+  reasoning_stability?: ReasoningStabilitySummary;
+};
+
+export type LeaderboardSubmission = {
+  generated_at?: string;
+  benchmark_mode?: "quick" | "full";
+  entries: LeaderboardSubmissionEntry[];
+};
+
 export function calculateRunHash(input: {
   benchmarkMode: "quick" | "full";
   judgeModel: string;
@@ -106,6 +121,52 @@ export async function refreshArtifactsFromLatestLeaderboard(): Promise<void> {
   await writeSubmissionPackage(leaderboard);
 }
 
+export async function mergeLeaderboardEntryFile(entryPath: string): Promise<LeaderboardJson> {
+  const leaderboard = JSON.parse(await readFile("leaderboard.json", "utf8")) as LeaderboardJson;
+  const submission = JSON.parse(await readFile(entryPath, "utf8")) as LeaderboardSubmission | LeaderboardSubmissionEntry;
+  const incomingEntries = "entries" in submission ? submission.entries : [submission];
+  const merged = mergeLeaderboardEntries(leaderboard, incomingEntries);
+
+  await writeFile("leaderboard.json", `${JSON.stringify(merged, null, 2)}\n`, "utf8");
+  await writeFile("leaderboard.html", renderLeaderboardHtml(merged), "utf8");
+  await writeSubmissionPackage(merged);
+  return merged;
+}
+
+export function mergeLeaderboardEntries(
+  leaderboard: LeaderboardJson,
+  incomingEntries: LeaderboardSubmissionEntry[],
+): LeaderboardJson {
+  const byModel = new Map(leaderboard.entries.map((entry) => [entry.model, entry]));
+
+  for (const incoming of incomingEntries) {
+    const existing = byModel.get(incoming.model);
+    if (!incoming.reasoning_stability && !existing?.reasoning_stability) {
+      throw new Error(`Missing reasoning_stability for new leaderboard model: ${incoming.model}`);
+    }
+
+    byModel.set(incoming.model, {
+      rank: existing?.rank ?? 0,
+      model: incoming.model,
+      score: incoming.score,
+      classification: incoming.classification,
+      source: incoming.source ?? "community",
+      run_hash: incoming.run_hash,
+      reasoning_stability: incoming.reasoning_stability ?? existing!.reasoning_stability,
+    });
+  }
+
+  const entries = [...byModel.values()]
+    .sort((a, b) => b.score - a.score || a.model.localeCompare(b.model))
+    .map((entry, index) => ({ ...entry, rank: index + 1 }));
+
+  return {
+    ...leaderboard,
+    generated_at: new Date().toISOString(),
+    entries,
+  };
+}
+
 export async function writeSubmissionPackage(leaderboard: LeaderboardJson): Promise<void> {
   await mkdir("submissions", { recursive: true });
 
@@ -122,6 +183,7 @@ export async function writeSubmissionPackage(leaderboard: LeaderboardJson): Prom
       classification: entry.classification,
       run_hash: entry.run_hash,
       source: "community",
+      reasoning_stability: entry.reasoning_stability,
     })),
   };
 
@@ -134,6 +196,7 @@ export async function writeSubmissionPackage(leaderboard: LeaderboardJson): Prom
       classification: entry.classification,
       run_hash: entry.run_hash,
       source: "community",
+      reasoning_stability: entry.reasoning_stability,
     })),
   };
 

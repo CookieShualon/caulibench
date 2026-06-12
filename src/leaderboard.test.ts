@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { buildLeaderboard, calculateRunHash } from "./leaderboard.js";
+import { buildLeaderboard, calculateRunHash, mergeLeaderboardEntries } from "./leaderboard.js";
 import { collectMetrics } from "./metrics.js";
 import type { ModelReport } from "./report.js";
 import { BENCHMARK_TESTS } from "./tests.js";
@@ -71,5 +71,26 @@ assert.equal(leaderboard.entries[0]?.rank, 1);
 assert.equal(leaderboard.entries[1]?.rank, 2);
 assert.equal(leaderboard.entries[0]?.source, "official");
 assert.equal(leaderboard.benchmark_mode, "quick");
+
+const merged = mergeLeaderboardEntries(leaderboard, [
+  {
+    model: "new-model",
+    score: 95,
+    classification: "normal",
+    source: "community",
+    run_hash: "a".repeat(64),
+    reasoning_stability: {
+      timeouts: 0,
+      loops: 0,
+      conflicts: 0,
+      infrastructure: 0,
+    },
+  },
+]);
+
+assert.equal(merged.entries[0]?.model, "new-model");
+assert.equal(merged.entries[0]?.rank, 1);
+assert.equal(merged.entries[0]?.source, "community");
+assert.equal(merged.entries.length, 3);
 
 console.log("leaderboard tests passed");

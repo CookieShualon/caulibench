@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc",
     "caulibench": "tsx src/index.ts",
+    "leaderboard:merge": "tsx src/merge-leaderboard.ts",
     "submit": "tsx src/submit.ts",
     "test": "tsx src/judge.test.ts && tsx src/reasoning.test.ts && tsx src/leaderboard.test.ts",
     "start": "node dist/index.js"

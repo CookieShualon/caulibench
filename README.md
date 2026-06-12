@@ -622,6 +622,14 @@ npm run submit
 
 `leaderboard.json` is the source of truth. If it changes, run `npm run submit` to synchronize `leaderboard.html` and the files in `submissions/`.
 
+Maintainers can merge a submitted leaderboard entry into the existing public leaderboard without replacing current models:
+
+```bash
+npm run leaderboard:merge submissions/leaderboard-entry.json
+```
+
+This command upserts models by name, recomputes ranks, preserves unrelated existing entries, writes the updated `leaderboard.json`, and regenerates `leaderboard.html` plus the submission package.
+
 `submission.json` contains the full summary evidence package, including CauliBench version, benchmark mode, judge model, reproducibility metadata, aggregate run hash, and model results.
 
 `leaderboard-entry.json` contains the minimal contribution data needed for leaderboard review.
