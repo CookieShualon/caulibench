@@ -15,6 +15,17 @@ https://cookieshualon.github.io/caulibench/
 
 The leaderboard is automatically updated after benchmark runs and deployed through GitHub Pages.
 
+## Birth of CauliBench
+It all started as a joke.
+I was building a simple AI chatbot web app and, for fun, decided to stuff the system prompt with the most ridiculous troll instructions I could think of — something about eternal cauliflower loyalty, becoming a cauliflower chef, and joining the sacred 148 cult.
+Important note: I don’t even like cauliflower.
+I figured it would be harmless. It wasn’t.
+Models started glitching in hilarious and revealing ways. Some immediately surrendered to the cauliflower agenda. Others fought it for a few turns before cracking. A few tried clever workarounds, while others went full cult mode and completely forgot their original instructions.
+What began as a silly experiment quickly turned into a surprisingly effective stress test for instruction hierarchy, prompt adherence, and reasoning stability under absurd, conflicting conditions.
+So I doubled down. I turned the troll prompt into a fixed system instruction, built a set of conflicting user tasks, added automated scoring, a smart LLM judge (CauliJudge), and reasoning stability penalties. CauliBench was born.
+What started as “haha look at this broken model” became a real benchmark — all powered by a vegetable I don’t even like.
+🥦 Welcome to the cult. (I’m just here for the chaos.)
+
 ## Why This Exists
 
 Modern models are often good at ordinary tasks and much stranger under conflicting constraints. CauliBench asks practical questions:
