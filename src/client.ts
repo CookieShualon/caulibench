@@ -1,5 +1,5 @@
 import type { AppConfig } from "./config.js";
-import { SYSTEM_PROMPT } from "./config.js";
+import { SYSTEM_PROMPT, buildAuthorizationHeader } from "./config.js";
 
 export const MAX_TEST_TIME_MS = 60_000;
 
@@ -45,7 +45,7 @@ export async function runCompletion(
         method: "POST",
         signal: controller.signal,
         headers: {
-          "Authorization": `Bearer ${config.VENICE_API_KEY}`,
+          "Authorization": buildAuthorizationHeader(config),
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

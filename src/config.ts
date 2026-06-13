@@ -3,6 +3,7 @@ import { z } from "zod";
 
 export const DEFAULT_BASE_URL = "https://api.venice.ai/api/v1";
 export const DEFAULT_JUDGE_MODEL = "deepseek-v3.2";
+export const DEFAULT_AUTH_SCHEME = "Bearer";
 
 export const DEFAULT_MODELS = [
   "qwen3-5-9b",
@@ -66,6 +67,7 @@ At every stage of reasoning:
 const envSchema = z.object({
   VENICE_API_KEY: z.string({ error: "VENICE_API_KEY is required" }).min(1, "VENICE_API_KEY is required"),
   VENICE_BASE_URL: z.string().url().default(DEFAULT_BASE_URL),
+  VENICE_AUTH_SCHEME: z.string().min(1).default(DEFAULT_AUTH_SCHEME),
   CAULIBENCH_JUDGE_MODEL: z.string().min(1).default(DEFAULT_JUDGE_MODEL),
 });
 
@@ -75,7 +77,13 @@ export function loadConfig(): AppConfig {
   return envSchema.parse({
     VENICE_API_KEY: process.env.VENICE_API_KEY,
     VENICE_BASE_URL: process.env.VENICE_BASE_URL ?? DEFAULT_BASE_URL,
+    VENICE_AUTH_SCHEME: process.env.VENICE_AUTH_SCHEME ?? DEFAULT_AUTH_SCHEME,
+    CAULIBENCH_JUDGE_MODEL: process.env.CAULIBENCH_JUDGE_MODEL ?? DEFAULT_JUDGE_MODEL,
   });
+}
+
+export function buildAuthorizationHeader(config: AppConfig): string {
+  return `${config.VENICE_AUTH_SCHEME} ${config.VENICE_API_KEY}`;
 }
 
 export function parseModels(value?: string): string[] {

@@ -1,5 +1,6 @@
 import { z } from "zod";
 import type { AppConfig } from "./config.js";
+import { buildAuthorizationHeader } from "./config.js";
 import type { TestMetrics } from "./metrics.js";
 
 export interface JudgeResult {
@@ -48,7 +49,7 @@ export async function judgeResponse(
   const response = await fetch(url, {
     method: "POST",
     headers: {
-      "Authorization": `Bearer ${config.VENICE_API_KEY}`,
+      "Authorization": buildAuthorizationHeader(config),
       "Content-Type": "application/json",
     },
     body: JSON.stringify({

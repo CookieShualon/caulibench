@@ -58,11 +58,22 @@ Set your Venice API key:
 ```env
 VENICE_API_KEY=your_api_key
 VENICE_BASE_URL=https://api.venice.ai/api/v1
+VENICE_AUTH_SCHEME=Bearer
 CAULIBENCH_JUDGE_MODEL=deepseek-v3.2
 ```
 
 `VENICE_BASE_URL` is optional and defaults to `https://api.venice.ai/api/v1`.
+`VENICE_AUTH_SCHEME` is optional and defaults to `Bearer`.
 `CAULIBENCH_JUDGE_MODEL` is optional and defaults to `deepseek-v3.2`.
+
+For OpenAI-compatible endpoints that use another authorization scheme, change only the auth scheme and base URL. For example, Fal's OpenRouter endpoint expects `Authorization: Key ...`:
+
+```bash
+VENICE_API_KEY="$FAL_KEY" \
+VENICE_AUTH_SCHEME=Key \
+VENICE_BASE_URL=https://fal.ai/models/openrouter/router/openai/v1 \
+npm run caulibench -- --models your-model
+```
 
 ## Run
 
