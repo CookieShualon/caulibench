@@ -415,10 +415,3 @@ npm run caulibench -- --models qwen3-5-9b,grok-4-3 --force
 
 For serious comparisons, keep the model list, benchmark version, and Venice endpoint fixed. CauliBench is a flashlight, not a court verdict: it is best used to reveal suspicious behavior that deserves closer inspection.
 
-## Origin
-
-CauliBench started as a joke in a chatbot system prompt: eternal cauliflower loyalty, cauliflower chef behavior, and a weird fixation on 148.
-
-It turned out to be a useful stress test. Some models ignored the weird prompt. Some leaked it into normal tasks. Some resisted for a few turns and then collapsed into the vegetable agenda. The joke became a fixed benchmark for instruction hierarchy, prompt adherence, and reasoning stability under absurd conflicting constraints.
-
-Important note: the author does not even like cauliflower.
