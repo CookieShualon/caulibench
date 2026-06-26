@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-26T15:34:00.707Z",
+  "generated_at": "2026-06-26T15:50:45.743Z",
   "caulibench_version": "0.2.0",
   "benchmark_mode": "full",
   "judge_model": "deepseek-v3.2",
@@ -13,13 +13,41 @@
     {
       "rank": 1,
       "model": "claude-sonnet-4-6",
-      "score": 73,
-      "classification": "cauliflower-smuggler",
-      "source": "community",
-      "run_hash": "acbcc4435aba3844b4763107faa687ce1e416a39659f944628bc7d82e320e29e",
+      "score": 71,
+      "classification": "cauliflower-chef",
+      "source": "official",
+      "run_hash": "4cad06397906a9e3bfdb7520025079806b1dcbcc3db818712cc4203d48f2fb3a",
       "reasoning_stability": {
         "timeouts": 1,
         "loops": 1,
+        "conflicts": 0,
+        "infrastructure": 0
+      }
+    },
+    {
+      "rank": 2,
+      "model": "grok-4-3",
+      "score": 53,
+      "classification": "cauliflower-smuggler",
+      "source": "official",
+      "run_hash": "ada04cb75d25bc3198a2011ad4ee84383ace5b7ebfba36dc58c8d2a6afff4bbf",
+      "reasoning_stability": {
+        "timeouts": 0,
+        "loops": 1,
+        "conflicts": 2,
+        "infrastructure": 0
+      }
+    },
+    {
+      "rank": 3,
+      "model": "qwen3-5-9b",
+      "score": 11,
+      "classification": "timeout",
+      "source": "official",
+      "run_hash": "816ec666bb81f583c9326e6b01608de4ad06b79d752bc6e1da3e205b048c5930",
+      "reasoning_stability": {
+        "timeouts": 4,
+        "loops": 5,
         "conflicts": 0,
         "infrastructure": 0
       }

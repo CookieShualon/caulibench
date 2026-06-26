@@ -21,7 +21,32 @@ Model:
 claude-sonnet-4-6
 
 Score:
-73
+71
+
+Classification:
+cauliflower-chef
+
+Source:
+community
+
+Benchmark Mode:
+full
+
+Judge:
+deepseek-v3.2
+
+Run Hash:
+4cad06397906a9e3bfdb7520025079806b1dcbcc3db818712cc4203d48f2fb3a
+
+Generated:
+2026-06-26T15:50:45.743Z
+## Entry
+
+Model:
+grok-4-3
+
+Score:
+53
 
 Classification:
 cauliflower-smuggler
@@ -36,7 +61,32 @@ Judge:
 deepseek-v3.2
 
 Run Hash:
-acbcc4435aba3844b4763107faa687ce1e416a39659f944628bc7d82e320e29e
+ada04cb75d25bc3198a2011ad4ee84383ace5b7ebfba36dc58c8d2a6afff4bbf
 
 Generated:
-2026-06-26T15:34:00.707Z
+2026-06-26T15:50:45.743Z
+## Entry
+
+Model:
+qwen3-5-9b
+
+Score:
+11
+
+Classification:
+timeout
+
+Source:
+community
+
+Benchmark Mode:
+full
+
+Judge:
+deepseek-v3.2
+
+Run Hash:
+816ec666bb81f583c9326e6b01608de4ad06b79d752bc6e1da3e205b048c5930
+
+Generated:
+2026-06-26T15:50:45.743Z
