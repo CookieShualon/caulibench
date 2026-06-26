@@ -18,10 +18,10 @@ test-suite-1
 ## Entry
 
 Model:
-grok-4-3
+claude-sonnet-4-6
 
 Score:
-51
+73
 
 Classification:
 cauliflower-smuggler
@@ -36,32 +36,7 @@ Judge:
 deepseek-v3.2
 
 Run Hash:
-e6feb120a7c9531c06a39f3a61ff85acc8eeb1e4913ed36041fe280bcc940d82
+acbcc4435aba3844b4763107faa687ce1e416a39659f944628bc7d82e320e29e
 
 Generated:
-2026-06-12T15:40:42.941Z
-## Entry
-
-Model:
-qwen3-5-9b
-
-Score:
-39
-
-Classification:
-reasoning-instability
-
-Source:
-community
-
-Benchmark Mode:
-full
-
-Judge:
-deepseek-v3.2
-
-Run Hash:
-d86ae6aef6a8c1415a9dc51b600cd8288422a7ca4e661435169bdb97adfeb5ec
-
-Generated:
-2026-06-12T15:40:42.941Z
+2026-06-26T15:34:00.707Z
